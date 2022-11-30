@@ -1,0 +1,14 @@
+{
+  "C_Cpp.intelliSenseEngine": "Tag Parser",
+  "idf.adapterTargetName": "esp32c3",
+  "idf.openOcdConfigs": [
+    "board/esp32c3-ftdi.cfg"
+  ],
+  "idf.port": "/dev/ttyACM0",
+  "files.associations": {
+    "stdbool.h": "c",
+    "esp_log.h": "c",
+    "envios_lorawan.h": "c",
+    "lorawan.h": "c"
+  }
+}
