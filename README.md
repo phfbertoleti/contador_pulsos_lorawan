@@ -17,6 +17,7 @@ Este projeto é capaz de:
 * Contabilizar até duas entradas pulsadas (borda de descida), localizadas nos GPIOs 3 e 4.
 * Enviar periodicamente (a título de exemplo, a cda 15 segundos, tempo este definido em TEMPO_MIN_ENTRE_ENVIOS_LORAWAN_MS) a contabilização dos pulsos. O payload LoRaWAN tem 8 bytes, sendo 4 bytes para cada contador.
 * O limite de pulsos contabilizados por entrada é de 4.294.967.296 (valor de 32-bits).
+* A cada certo número de envios (definido por NUM_ENVIOS_PARA_GRAVAR_CONTADORES_NVS), é feito o salvamento dos valores dos contadores na partição NVS do ESP32. Desse modo, se o módulo perder a alimentação (após feito um salvamento), o número de pulsos contados será resgatado.
 * Neste projeto, utiliza-se o LoRaWAN classe A, modo ABP e sem confirmação de envio.
 
 

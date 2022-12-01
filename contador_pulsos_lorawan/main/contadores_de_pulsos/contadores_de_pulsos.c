@@ -13,6 +13,9 @@
 #include "freertos/queue.h"
 #include "contadores_de_pulsos.h"
 
+/* Includes de outros modulos */
+#include "../nvs_rw/nvs_rw.h"
+
 /* Definição - debug */
 #define CONTADORES_PULSOS_TAG "CONTADORES_PULSOS"
 
@@ -31,8 +34,8 @@
 #define GPIO_INPUT_CONTADOR_2_PIN_SEL  (1ULL<<GPIO_CONTADOR_2)
 
 /* Variaveis dos contadores de pulsos */
-static long contador_pulsos_1 = 0;
-static long contador_pulsos_2 = 0;
+static uint32_t contador_pulsos_1 = 0;
+static uint32_t contador_pulsos_2 = 0;
 static int64_t tempo_ref_contador_1 = 0;
 static int64_t tempo_ref_contador_2 = 0;
 
@@ -76,8 +79,8 @@ void init_contadores_de_pulsos(void)
     ESP_LOGI(CONTADORES_PULSOS_TAG, "Inicializando contadores de pulsos...");
 
     /* Cria / aloca fila de bytes recebidos */
-    fila_contador_pulsos_1 = xQueueCreate(1, sizeof(long));
-    fila_contador_pulsos_2 = xQueueCreate(1, sizeof(long));
+    fila_contador_pulsos_1 = xQueueCreate(1, sizeof(uint32_t));
+    fila_contador_pulsos_2 = xQueueCreate(1, sizeof(uint32_t));
 
     /* Cria / aloca filas e as inicializa */
     if ((fila_contador_pulsos_1 == NULL) || (fila_contador_pulsos_2 == NULL) )
@@ -88,8 +91,8 @@ void init_contadores_de_pulsos(void)
     else
     {
         ESP_LOGI(CONTADORES_PULSOS_TAG, "Filas criadas / alocadas com sucesso");
-        contador_pulsos_1 = 0;
-        contador_pulsos_2 = 0;
+        le_valor_contador_nvs(CHAVE_NVS_CONTADOR_1, &contador_pulsos_1);
+        le_valor_contador_nvs(CHAVE_NVS_CONTADOR_2, &contador_pulsos_2);
         while (xQueueOverwrite(fila_contador_pulsos_1, (void *)&contador_pulsos_1) != pdPASS);
         while (xQueueOverwrite(fila_contador_pulsos_2, (void *)&contador_pulsos_2) != pdPASS);
     }

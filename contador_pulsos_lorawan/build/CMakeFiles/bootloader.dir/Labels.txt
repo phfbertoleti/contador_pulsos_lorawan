@@ -1,0 +1,13 @@
+# Target labels
+ bootloader
+# Source files and their labels
+/home/pedro/devkit_lorawan_esp32c3/contador_pulsos_lorawan/build/CMakeFiles/bootloader
+/home/pedro/devkit_lorawan_esp32c3/contador_pulsos_lorawan/build/CMakeFiles/bootloader.rule
+/home/pedro/devkit_lorawan_esp32c3/contador_pulsos_lorawan/build/CMakeFiles/bootloader-complete.rule
+/home/pedro/devkit_lorawan_esp32c3/contador_pulsos_lorawan/build/bootloader-prefix/src/bootloader-stamp/bootloader-build.rule
+/home/pedro/devkit_lorawan_esp32c3/contador_pulsos_lorawan/build/bootloader-prefix/src/bootloader-stamp/bootloader-configure.rule
+/home/pedro/devkit_lorawan_esp32c3/contador_pulsos_lorawan/build/bootloader-prefix/src/bootloader-stamp/bootloader-download.rule
+/home/pedro/devkit_lorawan_esp32c3/contador_pulsos_lorawan/build/bootloader-prefix/src/bootloader-stamp/bootloader-install.rule
+/home/pedro/devkit_lorawan_esp32c3/contador_pulsos_lorawan/build/bootloader-prefix/src/bootloader-stamp/bootloader-mkdir.rule
+/home/pedro/devkit_lorawan_esp32c3/contador_pulsos_lorawan/build/bootloader-prefix/src/bootloader-stamp/bootloader-patch.rule
+/home/pedro/devkit_lorawan_esp32c3/contador_pulsos_lorawan/build/bootloader-prefix/src/bootloader-stamp/bootloader-update.rule

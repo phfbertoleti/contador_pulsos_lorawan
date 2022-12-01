@@ -15,6 +15,7 @@
 /* Includes dos módulos do software */
 #include "../LoRaWAN/LoRaWAN.h"
 #include "../contadores_de_pulsos/contadores_de_pulsos.h"
+#include "../nvs_rw/nvs_rw.h"
 
 /* Includes de parametrização das tarefas */
 #include "../prio_tasks.h"
@@ -35,6 +36,9 @@
 #define HANDLER_TASK_ENVIOS_LORAWAN NULL
 #define CPU_TASK_ENVIOS_LORAWAN 0
 
+/* Variáveis locais */
+static uint32_t total_de_envios = 0;
+
 /* Tarefas deste módulo */
 static void envios_lorawan_task(void *arg);
 
@@ -45,6 +49,9 @@ static void envios_lorawan_task(void *arg);
 void init_envios_lorawan(void)
 {
     ESP_LOGI(ENVIOS_LORAWAN_TAG, "Inicializando envios LoRaWAN...");
+
+    /* Inicializa totalizador de envios LoRaWAN */
+    total_de_envios = 0;
 
     /* Inicializa a tarefa que gerencia os comandos */
     xTaskCreatePinnedToCore(envios_lorawan_task, "envios_lorawan",
@@ -64,8 +71,8 @@ void init_envios_lorawan(void)
 static void envios_lorawan_task(void *arg)
 {
     char bytes_para_enviar[8] = {0};
-    long contador_1 = 0;
-    long contador_2 = 0;
+    uint32_t contador_1 = 0;
+    uint32_t contador_2 = 0;
     int qtde_bytes = 0;
     int i;
     char * pt_byte_contador;
@@ -128,6 +135,16 @@ static void envios_lorawan_task(void *arg)
         }
 
         envia_mensagem_binaria_lorawan_ABP(bytes_para_enviar, qtde_bytes);
-        ESP_LOGI(ENVIOS_LORAWAN_TAG, "Envio LoRaWAN feito");
+        total_de_envios++;
+        ESP_LOGI(ENVIOS_LORAWAN_TAG, "Envio #%d LoRaWAN feito. Envios faltantes para o salvamento na NVS: %d", total_de_envios,
+                                                                                                               NUM_ENVIOS_PARA_GRAVAR_CONTADORES_NVS - total_de_envios);
+
+        /* Verifica se é momento de salvar na NVS os valores dos contadores */
+        if (total_de_envios == NUM_ENVIOS_PARA_GRAVAR_CONTADORES_NVS)
+        {
+            grava_valor_contador_nvs(CHAVE_NVS_CONTADOR_1, contador_1);
+            grava_valor_contador_nvs(CHAVE_NVS_CONTADOR_2, contador_2);
+            total_de_envios = 0;
+        }
     }
 }

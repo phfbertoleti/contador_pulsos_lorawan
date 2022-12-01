@@ -12,6 +12,7 @@
 #include "LoRaWAN/LoRaWAN.h"
 #include "envios_lorawan/envios_lorawan.h"
 #include "contadores_de_pulsos/contadores_de_pulsos.h"
+#include "nvs_rw/nvs_rw.h"
 
 /* Definições - debug */
 #define APP_MAIN_TAG       "APP_MAIN"
@@ -34,7 +35,9 @@ void app_main(void)
                            (chip_info.features & CHIP_FEATURE_BT) ? "/BT" : "",
                            (chip_info.features & CHIP_FEATURE_BLE) ? "/BLE" : "",
                            spi_flash_get_chip_size() / (1024 * 1024));
-   
+    /* Inicializa NVS */
+    init_nvs();
+
     /* Inicializa LoRaWAN */
     init_lorawan();
 
